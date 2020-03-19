@@ -32,8 +32,16 @@ namespace Benchmark
 
         #region NLog
 
-        private static NLog.ILogger nlog => LogManager.GetCurrentClassLogger();
-
+        private static NLog.ILogger Nlog {
+            get { 
+                if(_nlog == null)
+                {
+                    _nlog = LogManager.GetCurrentClassLogger();
+                }
+                return _nlog;
+            } 
+        }
+        private static NLog.ILogger _nlog;
         private static void NLogSetup()
         {
             LogManager.Configuration = new XmlLoggingConfiguration("NLog.config");
@@ -102,7 +110,7 @@ namespace Benchmark
             for (int i = 0; i < _iterations; i++)
             {
                  var str = i.ToString();
-                nlog.Debug($"This is a message with two params! {i}, {str}");
+                Nlog.Debug($"This is a message with two params! {i}, {str}");
             }
         }
         
